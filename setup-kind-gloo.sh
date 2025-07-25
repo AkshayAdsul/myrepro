@@ -182,9 +182,9 @@ main() {
     create_kind_cluster
     install_gloo_edge
     wait_for_gloo
-    install_gloo_portal
-    deploy_petstore
-    deploy_portal_config
+    #install_gloo_portal
+    #deploy_petstore
+    #deploy_portal_config
     
     print_success "Setup completed successfully!"
     print_status "Your KinD cluster with Gloo Edge Enterprise 1.18.11 is ready!"
