@@ -1,0 +1,76 @@
+{{- $envCount := int .Values.environmentNum }}
+{{- range $envIndex := until $envCount }}
+{{- $envNum := add $envIndex 1 }}
+---
+apiVersion: portal.gloo.solo.io/v1beta1
+kind: Environment
+metadata:
+  name: env-{{ $envNum }}
+  namespace: {{ $.Values.global.namespace }}
+spec:
+  domains:
+  - api-env-{{ $envNum }}.example.com
+  displayInfo:
+    description: Environment {{ $envNum }} for testing APIs
+    displayName: Environment {{ $envNum }}
+  apiProducts:
+  - namespaces:
+    - "*"
+    labels:
+    - key: app
+      operator: In
+      values:
+      {{- $productCount := int $.Values.apiProductsPerEnvironment }}
+      {{- range $productIndex := until $productCount }}
+      {{- $productNum := add $productIndex 1 }}
+      - env-{{ $envNum }}-product-{{ $productNum }}
+      {{- end }}
+
+---
+
+{{- $productCount := int $.Values.apiProductsPerEnvironment }}
+{{- range $productIndex := until $productCount }}
+{{- $productNum := add $productIndex 1 }}
+apiVersion: portal.gloo.solo.io/v1beta1
+kind: APIProduct
+metadata:
+  name: env-{{ $envNum }}-product-{{ $productNum }}
+  namespace: gloo-system
+  labels:
+    app: env-{{ $envNum }}-product-{{ $productNum }}
+spec:
+  displayInfo:
+    description: Environment {{ $envNum }} Product {{ $productNum }}
+    title: Environment {{ $envNum }} Product {{ $productNum }}
+  versions:
+  - name: v1
+    apis:
+    - apiDoc:
+        name: env-{{ $envNum }}-product-{{ $productNum }}-schema
+        namespace: gloo-system
+    gatewayConfig:
+      route:
+        inlineRoute:
+          backends:
+          - upstream:
+              name: default-petstore-8080
+              namespace: gloo-system
+
+---
+
+apiVersion: portal.gloo.solo.io/v1beta1
+kind: APIDoc
+metadata:
+  name: env-{{ $envNum }}-product-{{ $productNum }}-schema
+  namespace: gloo-system
+spec:
+  openApi:
+    content:
+      fetchUrl: http://petstore.default:8080/swagger.json
+
+---
+{{- end }}
+
+
+
+{{- end }} 

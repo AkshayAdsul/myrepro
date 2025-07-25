@@ -1,0 +1,6 @@
+apiVersion: v2
+name: portal-config
+description: A Helm chart for Gloo Portal configuration with multiple environments, API products, and API docs
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

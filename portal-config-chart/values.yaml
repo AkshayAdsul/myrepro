@@ -1,0 +1,10 @@
+# Default values for portal-config
+# This is a YAML-formatted file.
+
+# Global settings
+global:
+  namespace: gloo-system
+
+# Environment configuration
+environmentNum: 10
+apiProductsPerEnvironment: 10
