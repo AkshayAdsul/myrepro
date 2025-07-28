@@ -116,7 +116,8 @@ install_gloo_edge() {
     print_status "Installing Gloo Edge Enterprise 1.18.11..."
     
     # Add the Gloo Edge Enterprise Helm repository
-    helm repo add gloo https://storage.googleapis.com/gloo-ee-helm || true
+    helm repo add glooe https://storage.googleapis.com/gloo-ee-helm || true
+    helm repo add gloo-ee https://storage.googleapis.com/gloo-ee-helm || true
     helm repo update
     
     # Create namespace for Gloo Edge
