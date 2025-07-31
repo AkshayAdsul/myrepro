@@ -133,7 +133,9 @@ install_gloo_edge() {
         --set gloo.gatewayProxies.gatewayProxy.service.httpsPort=443 \
         --set gloo-fed.enabled=false \
         --set gloo-fed.glooFedApiserver.enable=false \
-        --set gloo.discovery.enabled=false \
+        --set gloo.discovery.enabled=true \
+        --set gateway.validation.alwaysAcceptResources=false \
+        --set gateway.validation.enabled=true \
         --wait
     
     print_success "Gloo Edge Enterprise 1.18.11 installed successfully!"
